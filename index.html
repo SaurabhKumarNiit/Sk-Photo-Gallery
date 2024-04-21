@@ -13,24 +13,49 @@
     <div class="container">
       <div class="card">
         <div class="card-body">
+          <div class="button-container">
+            <button id="desktopButton" onclick="changeFolder('images')">Desktop Images</button>
+            <button id="mobileButton" onclick="changeFolder('mobileImages')">Mobile Images</button>
+          </div>
           <h6 class="card-title">Natural</h6>
           <p class="card-text">Flowers & Leaves.</p>
         </div>
-        <div class="image-gallery">
-          <!-- JavaScript for loop to iterate over image names -->
-          <script>
-            for (var i = 1; i <= 46; i++) {
-              document.write(`
-                <div class="image-wrapper">
-                  <img src="images/nature_pic_${i}.jpg" alt="img" class="gallery-image" onclick="openFullScreen(this)">
-                  <a href="images/nature_pic_${i}.jpg" download="nature_pic_${i}.jpg" class="download-btn">Download</a>
-                </div>
-              `);
-            }
-          </script>
-        </div>
+        <div class="image-gallery" id="imageGallery"></div>
       </div>
     </div>
+  
+    <script>
+      const folderInfo = {
+        images: 46,
+        mobileImages: 22
+      };
+  
+      function changeFolder(folder) {
+        const numImages = folderInfo[folder];
+        const imageGallery = document.getElementById('imageGallery');
+        imageGallery.innerHTML = ''; // Clear previous images
+        for (let i = 1; i <= numImages; i++) {
+          const imageWrapper = document.createElement('div');
+          imageWrapper.classList.add('image-wrapper');
+          const image = document.createElement('img');
+          image.src = `${folder}/nature_pic_${i}.jpg`;
+          image.alt = 'img';
+          image.classList.add('gallery-image');
+          image.setAttribute('onclick', 'openFullScreen(this)');
+          const downloadLink = document.createElement('a');
+          downloadLink.href = `${folder}/nature_pic_${i}.jpg`;
+          downloadLink.download = `nature_pic_${i}.jpg`;
+          downloadLink.innerText = 'Download';
+          downloadLink.classList.add('download-btn');
+          imageWrapper.appendChild(image);
+          imageWrapper.appendChild(downloadLink);
+          imageGallery.appendChild(imageWrapper);
+        }
+      }
+      // Load desktop images by default
+      changeFolder('images');
+    </script>
+    
     
     
 
